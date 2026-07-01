@@ -129,5 +129,18 @@
         const answers = ["Звезды говорят: время еще не пришло.", "Ответ скрыт в тенях.", "Будущее туманно, но путь ясен.", "Смотри глубже, за пределы дыры."];
         function getOracleAnswer() { const display = document.getElementById('answer-display'); display.innerText = answers[Math.floor(Math.random() * answers.length)]; display.style.opacity = 1; }
     </script>
+    <audio id="bg-music" loop>
+        <source src="ghostly-sorrow_88011.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        // Запуск музыки после первого клика
+        const audio = document.getElementById('bg-music');
+        document.body.addEventListener('click', function() {
+            if (audio.paused) {
+                audio.play().catch(e => console.log("Музыка ждет взаимодействия"));
+            }
+        }, { once: true });
+    </script>
 </body>
 </html>
