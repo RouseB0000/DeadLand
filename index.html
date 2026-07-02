@@ -5,6 +5,28 @@
     <title>Deadland</title>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;1,300&family=Cinzel:wght@300&display=swap" rel="stylesheet">
     <style>
+        /* Скрываем системный курсор везде */
+        body, button, .menu-item, .eye-svg, .oracle-btn { cursor: none !important; }
+
+        /* Наш кастомный курсор */
+        #custom-cursor {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 40px; 
+            height: 40px;
+            pointer-events: none;
+            z-index: 99999;
+            color: #800080; /* Темно-фиолетовый */
+            filter: drop-shadow(0 0 8px #800080) drop-shadow(0 0 15px #4b0082);
+            transition: transform 0.1s ease;
+        }
+
+        /* Эффект при наведении на кликабельные элементы */
+        #custom-cursor.active {
+            transform: scale(1.3);
+            color: #d8a0ff; /* Светлее при взаимодействии */
+        }
         body { margin: 0; padding: 0; height: 100vh; overflow: hidden; font-family: 'Cormorant Garamond', serif; color: #d1d1d1; animation: fadeInBody 2s ease-out; }
         @keyframes fadeInBody { from { opacity: 0; } to { opacity: 1; } }
 
@@ -58,6 +80,11 @@
     </style>
 </head>
 <body>
+    <div id="custom-cursor">
+        <svg viewBox="0 0 24 24" fill="currentColor" stroke="none" width="100%" height="100%">
+            <path d="M3 3l7.07 16.97 2.51-7.39 7.39-2.51L3 3z"></path>
+        </svg>
+    </div>
 
     <canvas id="space"></canvas>
 
@@ -141,6 +168,17 @@
                 audio.play().catch(e => console.log("Музыка ждет взаимодействия"));
             }
         }, { once: true });
+        // Логика кастомного курсора
+        const cursor = document.getElementById('custom-cursor');
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+        });
+
+        document.querySelectorAll('button, .menu-item, .eye-svg').forEach(el => {
+            el.addEventListener('mouseenter', () => cursor.classList.add('active'));
+            el.addEventListener('mouseleave', () => cursor.classList.remove('active'));
+        });
     </script>
 </body>
 </html>
